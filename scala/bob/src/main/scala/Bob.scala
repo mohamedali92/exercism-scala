@@ -1,13 +1,17 @@
 object Bob {
   def response(statement: String): String = {
     val trimmedStatement = statement.trim
-    val letterLessStatements = trimmedStatement.matches("[\\W\\d]*")
 
     if (trimmedStatement == "") "Fine. Be that way!"
-    else if (trimmedStatement.toUpperCase == trimmedStatement && trimmedStatement.endsWith("?") && !letterLessStatements) "Calm down, I know what I'm doing!"
-    else if (trimmedStatement.endsWith("?")) "Sure."
-    else if (trimmedStatement.toUpperCase == trimmedStatement && !letterLessStatements) "Whoa, chill out!"
+    else if (isQuestion(trimmedStatement) && isShouting(trimmedStatement)) "Calm down, I know what I'm doing!"
+    else if (isQuestion(trimmedStatement)) "Sure."
+    else if (isShouting(trimmedStatement)) "Whoa, chill out!"
     else "Whatever."
   }
 
+  def isQuestion(statement: String): Boolean = statement.endsWith("?")
+
+  def isShouting(statement: String): Boolean = statement.toUpperCase == statement && !isLetterLess(statement)
+
+  def isLetterLess(statement: String): Boolean = statement.matches("[\\W\\d]*")
 }
